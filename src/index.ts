@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
 import pdfRoutes from "./routes/pdf.routes";
 import chatRoutes from "./routes/chat.routes";
 
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
 app.use("/api/pdf", pdfRoutes);
 
 app.use("/api/chat", chatRoutes);
+
+app.use("/api-docs", swaggerUi.serve,swaggerUi.setup(swaggerSpec));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

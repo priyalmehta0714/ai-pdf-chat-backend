@@ -1,8 +1,24 @@
 version: "3.9"
 
 services:
+  backend:
+    build: .
+
+    container_name: ai-pdf-backend
+
+    ports:
+      - "5000:5000"
+
+    depends_on:
+      - postgres
+
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/ai_pdf_chat
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+
   postgres:
     image: pgvector/pgvector:pg16
+
     container_name: ai-pdf-postgres
 
     environment:
@@ -12,9 +28,6 @@ services:
 
     ports:
       - "5432:5432"
-
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
 
 volumes:
   postgres_data:
