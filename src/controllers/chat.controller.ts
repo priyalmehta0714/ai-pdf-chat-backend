@@ -3,6 +3,11 @@ import { Request, Response } from "express";
 import { searchSimilarChunks } from "../services/search.service";
 import { generateAnswer } from "../services/chat.service";
 
+interface SimilarChunk {
+  content: string;
+  score: number;
+}
+
 export const askQuestion = async (
   req: Request,
   res: Response
@@ -20,7 +25,7 @@ export const askQuestion = async (
       await searchSimilarChunks(question);
 
     const context = similarChunks
-      .map((chunk) => chunk.content)
+      .map((chunk: SimilarChunk) => chunk.content)
       .join("\n");
 
     const answer = await generateAnswer(
